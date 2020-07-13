@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+body,input,textarea,select,html,a,p,div {
+    font-family: '나눔고딕', NanumGothic, -apple-system, BlinkMacSystemFont, Apple SD Gothic Neo, '맑은 고딕', Malgun Gothic, '돋움', dotum, sans-serif;
+}
+a, a:hover, a:link, a:visited{
+    text-decoration: none !important;
+}
+img{
+    width: 100%;
+    height: 100%;
+}
+.dnone{
+    display: none;
+}
+
+/*title*/
+.titleBody{
+    padding-top: 100px;
+    width: 100%;
+    height: 300px;
+}
+.title{
+    padding-top: 70px;
+    font-size: 25pt;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+.sub-title{
+    padding-top: 10px;
+    font-size: 12pt;
+}
+
+/*itemBody*/
+.itemBody{
+    max-width: 900px !important;
+    height: 100%;
+}
+.item{
+    width: 900px;
+    height: 250px;
+    padding: 22px;
+}
+.imgBox{
+    min-width: 200px;
+    height: 200px;
+}
+
+
+.pickHeart {
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+.pickHeart i{
+    font-size: 16pt;
+    padding-top: 9px;
+    padding-left: 7px;
+}
+.unPick{
+    color: #F86624;
+}
+.pick{
+    color: #F86624;
+}
+.item-info{
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 20pt;
+    font-weight: 400;
+    width: 600px;
+    letter-spacing: 1px;
+}
+.itemInfo-avg{
+    color: #F86624;
+}
+.info-addr{
+    color: rgba(0, 0, 0, 0.4);
+    letter-spacing: 1px;
+    font-weight: 400;
+}
+.info-userID{
+    padding-top: 20px;
+    font-weight: 500;
+}

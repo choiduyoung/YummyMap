@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+			PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+					"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	 
+	 <settings>
+	 	<setting name="cacheEnabled" value="false" />
+	 	<setting name="useGeneratedKeys" value="true" />
+	 	<setting name="defaultExecutorType" value="REUSE" />
+	 </settings>
+
+	 <typeAliases>
+	 	<typeAlias alias="MemberVO" type="com.yummymap.mmy.vo.MemberVO" />
+	 	<typeAlias alias="tVO" type="com.yummymap.mmy.vo.txt.TxtVO" />
+	 	<typeAlias alias="textVo" type="com.yummymap.mmy.vo.TextVO" />
+	 	<typeAlias alias="adminVo" type="com.yummymap.mmy.vo.admin.AdminVO" />
+		<typeAlias alias="aBoardVo" type="com.yummymap.mmy.vo.admin.AdminBoardVO" />
+		<typeAlias alias="chartCntVo" type="com.yummymap.mmy.vo.admin.ChartCntVO" />
+		<typeAlias  alias="resCntVo" type="com.yummymap.mmy.vo.admin.ResCntVO" />
+		<typeAlias alias="ratingUpsoVo" type="com.yummymap.mmy.vo.RatingUpsoVO" />
+		<typeAlias type="com.yummymap.mmy.vo.ReviewVO" alias="reviewVo"/>
+		<typeAlias type="com.yummymap.mmy.vo.ImageFileVO" alias="imageFileVo"/>
+		<typeAlias type="com.yummymap.mmy.vo.UpsoVO" alias="upsoVo"/>	
+		<typeAlias type="com.yummymap.mmy.vo.SearchInfoVO" alias="searchInfoVo"/>
+		<typeAlias type="com.yummymap.mmy.vo.JoinMailVO" alias="jVO"/>
+	 </typeAliases>
+	 
+	 <!-- 오라클에서 Long타입 가져오기 위한 핸들러 -->
+	<typeHandlers>
+        <typeHandler handler="com.yummymap.mmy.handler.CLOBHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+    </typeHandlers>	
+	  <!--  -->
+	  <mappers>
+	  	<mapper resource="com/yummymap/mmy/sql/MemberSQL.xml" />
+	  	<mapper resource="com/yummymap/mmy/sql/TxtSQL.xml" />
+	  	<mapper resource="com/yummymap/mmy/sql/chartSQL.xml" />
+	  	<mapper resource="com/yummymap/mmy/sql/adminSQL.xml" />
+	  	<mapper resource="com/yummymap/mmy/sql/textSQL.xml" />
+	  	<mapper resource="com/yummymap/mmy/sql/mainSQL.xml" />
+	  	<mapper resource="com/yummymap/mmy/sql/JoinMailSQL.xml" />
+	  </mappers>
+	 
+</configuration>

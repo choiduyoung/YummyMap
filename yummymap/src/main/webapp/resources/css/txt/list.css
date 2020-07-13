@@ -1,0 +1,17 @@
+
+.txt-line{width: 830px; height: 1000px;}
+.txt-body{width: 830px; height: 100px;}
+.txt-body:hover{background-color: rgba(0, 0, 0,0.04);}
+.txt-no{padding-left: 30px; padding-top: 10px; padding-right: 17px;}
+.txt-title{padding-left: 25px; width: 820px; }
+.bold-font{font-weight: bold;}
+.txt-title-info{height: 28px; }
+
+.txt-img-item{width: 120px; height: 82px;}
+.paging{width: 830px;}
+
+.writebox{width: 830px; margin-top: 23px;}
+.writeBtnBox{width: 600px;}
+.selbox{width: 240px;}
+.txtimg{width: 100px; height: 100px; display: block; object-fit: cover; object-position: center;}
+.btn{border-color: rgba(0, 0, 0,0.15); border-radius: 0px;}

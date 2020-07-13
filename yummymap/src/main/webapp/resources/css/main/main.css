@@ -1,0 +1,289 @@
+@charset "UTF-8";
+
+body,input,textarea,select,html,a,p,div {
+    font-family: '나눔고딕', NanumGothic, -apple-system, BlinkMacSystemFont, Apple SD Gothic Neo, '맑은 고딕', Malgun Gothic, '돋움', dotum, sans-serif;
+}
+a:hover, a:link, a:visited{
+    text-decoration: none !important;
+    color:white !important;
+}
+.dnone{
+    display: none;
+}
+.topNav{
+    background-image: url(/yummymap/resources/img/main/background.png);
+    width: 100%;
+    height: 250px;
+    z-index :99999;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+img{
+    width: 100%;
+    height: 100%;
+}
+.topNavLogo{
+    width: 20%;
+}
+.topNavLogo a{
+    color: white;
+    font-size: 15pt !important;
+    font-weight: bold;
+}
+.topNavItem{
+    width: 80%;
+    padding: 0px;
+}
+.topNavItem-icon{
+    font-size: 18pt;
+    color: white;
+}
+.topNavItem-icon i {
+	cursor: pointer;
+}
+ul{
+    list-style: none;
+}
+.topNavItem li{
+    padding-left: 20px;
+}
+
+/* nav Hidden*/
+
+.topNavHidden{
+    position: fixed;
+    background-color: white;
+    width: 100%;
+    height: 100px;
+    z-index :99999;
+}
+
+.topNavLogoHD{
+    width: 20%;
+}
+.topNavLogoHD a{
+    color: #F86624 !important;
+    font-size: 15pt !important;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+.topNavItemHD{
+    width: 80%;
+    margin: 0;
+}
+.topNavItem-iconHD i{
+    color: rgba(0, 0, 0, 0.3) !important;
+    font-size: 18pt;
+    cursor: pointer;
+}
+.topNavItemHD li{
+    padding-left: 20px;
+}
+
+
+/*search*/
+
+.searchBoxHD{
+    width: 500px;
+    height: 50px;
+    border: 2px solid #F86624;
+    border-radius: 30px;
+    background-color: white;
+}
+.searchBoxHD input{
+    height: 42px;
+    width: 350px;
+    margin-top: 2px;
+    border: 0;
+}
+.searchBoxHD input:focus{
+    outline: none;
+}
+.searchBox-fontHD{
+    color: rgba(0, 0, 0, 0.4);
+    width: 50px;
+    text-align: center;
+    padding-top: 11px;
+    border-radius: 30px;
+}
+.searchBox-textHD{
+    color: white;
+    width: 100px;
+    font-size: 14pt;
+    font-weight: 500;
+    text-align: center;
+    padding-top: 8px;
+    background-color: #F86624;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+
+
+
+/*-----------------------*/
+
+/*search*/
+
+.searchBox{
+    width: 500px;
+    height: 50px;
+    border: 2px solid #F86624;
+    border-radius: 30px;
+    background-color: white;
+}
+.searchBox input{
+    height: 42px;
+    width: 350px;
+    margin-top: 2px;
+    border: 0;
+}
+.searchBox input:focus{
+    outline: none;
+}
+.searchBox-font{
+    color: rgba(0, 0, 0, 0.4);
+    width: 50px;
+    text-align: center;
+    padding-top: 11px;
+    border-radius: 30px;
+}
+.searchBox-text{
+    color: white;
+    width: 100px;
+    font-size: 14pt;
+    font-weight: 500;
+    text-align: center;
+    padding-top: 8px;
+    background-color: #F86624;
+    border-radius: 30px;
+    cursor: pointer;    
+}
+.sub-title{
+    font-size: 17pt;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: white;
+    letter-spacing: 1px;
+}
+
+
+/* banner */
+.gameBanner{
+    width: 100px;
+    height: 40px;
+    border: 1px solid white;
+    border-radius: 7px;
+    background-color: black;
+}
+.boardBanner{
+    width: 100px;
+    height: 40px;
+    border: 1px solid white;
+    border-radius: 7px;
+    background-color: black;
+}
+.gameBanner div, .boardBanner div{
+    padding-top: 8px;
+    color: white;
+    font-size: 10pt;
+}
+.gameBannerItem{
+    text-align: center;
+}
+
+/*itemBody*/
+.itemBody{
+    height: 100%;
+    max-width: 1350px !important;
+}
+.itemBody-title{
+    margin-top: 30px;
+    color: #F86624;
+    font-size: 15pt;
+    font-weight: 450;
+    letter-spacing: 2px;
+}
+.item-card{
+    width: 433.33px;
+    height: 260px;
+    background-size: 100%;
+    cursor: pointer;
+}
+.item-card-title{
+	position: relative;
+	z-index: 1000;
+    color: white;
+    font-size: 20pt;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-align: center;
+    top: -55%;
+}
+.backImg-card{
+	background-color: rgba(0, 0, 0, 0.4); 
+	width: 100%; 
+	height: 100%;
+}
+.pager{
+    letter-spacing: 3px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.pager:hover {
+    color: #F86624;
+    
+}
+
+
+/* myUpso Modal Page*/
+
+.modal-body {
+    overflow-y: scroll;
+}
+.myUpsoImgBox {
+    width: 100px;
+    height: 100px;
+}
+.myUpsoName{
+    font-size: 12pt;
+    font-weight: 500;
+}
+.myUpsoAddr{
+    font-size: 10pt;
+    color: rgba(0, 0, 0, 0.5);
+}
+.myUpsoStar i {
+    font-size: 11pt;
+    color: rgb(255, 187, 0);
+}
+.myUpsoRCount i{
+    font-size: 11pt;
+    color: rgb(15, 0, 224);
+}
+.font-size-11 {
+    font-size: 11pt;
+}
+.modal-body{
+    height: 500px;
+}
+.myUpsoBtn{
+	font-weight: 700;
+	font-size: 10pt;
+	margin-left: 20px;
+	padding-top: 2px;
+	padding-bottom: 5px;
+	cursor: pointer;
+}
+.myUpsoBtn:hover {
+	border-bottom: 2px solid #F86624;
+}
+.modal-sub-title {
+	font-size: 11pt;
+	color: #F86624;
+}
+.modal-sub-title2 {
+	font-size: 11pt;
+	font-weight: 500;
+}

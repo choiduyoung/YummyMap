@@ -1,0 +1,12 @@
+.m-box{width: 500px; margin-left: 100px;}
+.option-item-text{font-size: 10pt;}
+.homebtn,.joinbtn,.naverbtn,.kakaobtn{width: 500px; height: 45px;}
+.dnone{display: none;}
+.idlabel{width: 395px;}
+#email2{width: 300px;}
+.linkbtn{width: 140px; height: 23px; font-size: 10pt;}
+.linkbox{position: absolute; top: 233px; left: 1134px;}
+a,a:link,a:hover,a:visited{text-decoration: none !important;}
+.pid2{width: 40px !important;}
+.b-box{height: 40px; width: 500px;}
+.body-style{width: 40%; float:none; margin:0 auto;}

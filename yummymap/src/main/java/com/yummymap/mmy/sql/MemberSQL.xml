@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+			PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+					"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+					
+<mapper namespace="memberSql">
+		<!-- 로그인 처리 SQL -->
+		<select id="loginCheck" resultType="int" parameterType="MemberVO" >
+			SELECT 
+				count(*)
+			FROM
+				member
+			WHERE
+				mid = #{mid}
+				AND mpw = #{mpw}
+				AND isshow = 'Y'
+				AND grade = 'M' 
+		</select>
+		<!-- 회원정보 리스트 불러와주는 SQL -->
+		<select id="getUserInfo" resultType="MemberVO" parameterType="MemberVO">
+			SELECT
+				mname, mid, mpw, mtel, memail
+			FROM
+				member
+			WHERE
+				mid = #{mid}
+		</select>
+		<!-- 비밀번호 번경 SQL -->
+		<update id="pwchange" parameterType="MemberVO" >
+			UPDATE 
+				member 
+			SET
+			mpw = #{mpw}
+			WHERE 
+			mid = #{mid}
+		</update>
+		<!-- 비밀번호 찾기 -->
+		<select id="pwfind" resultType="int" parameterType="MemberVO">
+			SELECT 
+				COUNT(*) cnt  
+			FROM 
+				member
+			WHERE 
+				mid = #{mid}
+				AND memail = #{memail}
+		</select>
+		<!-- 회원 탈퇴 SQL -->
+		<update id="memberDel" parameterType="MemberVO">
+			UPDATE
+				member
+			SET
+				isshow = 'N'
+			WHERE
+				mid = #{mid}
+		</update>
+		<!-- 아이디 찾기 SQL -->
+		<select id="idfind" resultType="String" parameterType="MemberVO">
+			SELECT 
+				mid
+			FROM
+				member
+			WHERE
+				mname =  #{mname}
+				AND memail = #{memail}  		
+		</select>
+		<!-- 이메일 변경 SQL -->
+		<update id="emailchange" parameterType="MemberVO">
+			UPDATE
+				member
+			SET
+				memail = #{memail}
+			WHERE
+				mid = #{mid}
+		</update>
+		<!-- 회원가입 처리 SQL -->
+		<insert id="join" parameterType="MemberVO">
+		<selectKey keyProperty="mno" resultType="int" order="BEFORE">
+			SELECT
+				NVL(MAX(mno)+1, 1000)
+			FROM
+				member
+		</selectKey>
+		INSERT INTO
+			member(mno, mname, mid, mpw, mtel, memail)
+		VALUES(
+			#{mno}, #{mname}, #{mid}, #{mpw}, #{mtel}, #{memail}
+		)
+		</insert>
+		<!-- 아이디 체크 SQL -->
+		<select id="idCheck" resultType="int" parameterType="MemberVO">
+			SELECT
+				count(*) cnt
+			FROM
+				member
+			WHERE
+				mid = #{mid}
+		</select>
+		<!-- 접속 카운트 날짜 조회 SQL -->
+		<select id="clicntCntInfo" resultType="int">
+			SELECT
+			    count(*) cnt
+			FROM
+			    clientcnt
+			WHERE
+			    cdate = to_char(sysdate,'yyyy/MM/dd')
+		</select>
+		
+		<!-- 접속 카운트 증가 SQL -->
+		<update id="addClientCnt">
+			UPDATE
+			    clientcnt
+			SET
+			    cnt = (SELECT cnt FROM clientcnt WHERE cdate = to_char(sysdate,'yyyy/MM/dd')) + 1
+			WHERE
+			    cdate = to_char(sysdate,'yyyy/MM/dd')
+		</update>
+		<!-- 접속 카운트 증가 SQL -->
+		<insert id="createClientCnt" parameterType="int">
+			INSERT INTO
+			    clientcnt
+			VALUES
+			(
+			    #{cnt}, to_char(sysdate,'yyyy/MM/dd')
+			)
+		</insert>
+</mapper>

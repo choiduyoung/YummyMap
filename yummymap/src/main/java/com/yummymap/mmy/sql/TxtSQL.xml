@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+ 			PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 					"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- txt list -->
+<mapper namespace="tSQL">
+	<select id="tList" resultType="tVO">
+	SELECT
+		rno, txtno, mid, title, category, mtxt, cdate, count,
+		rnum, savename
+	FROM
+		(SELECT
+			ROWNUM rno, t.txtno, mid, title, category, mtxt,
+			TO_CHAR(cdate,'yyyy-MM-dd  hh24:mi:ss') cdate, count,
+			rnum, savename
+		FROM
+			txt t, category c, txtimg i
+		WHERE
+			i.txtno = t.txtno
+			AND
+			t.isshow = 'Y'
+			AND t.catno=c.catno
+		ORDER BY
+			txtno DESC
+		)
+	<!-- 	WHERE 
+			rno BETWEEN #{rno} AND #{rno} --> 
+	</select>
+<!-- txt write -->
+	<insert id="tWrite">
+		INSERT INTO txt(
+			txtno, title, catno, mtxt, mid
+		) VALUES (
+			getTxtno.nextval, #{title}, #{catno}, #{mtxt}, #{mid}
+		)
+	</insert>
+<!-- txt detail -->
+	<select id="tDetail" resultType="tVO" parameterType="int">
+		SELECT
+			t.txtno, title, mtxt, m.mid, cdate, count, catno, upno, savename, 
+			(SELECT count(*) FROM recommend WHERE isrec='Y' AND txtno=#{txtno}) rnum
+		FROM
+			txt t, txtimg, member m
+		WHERE
+			m.mid = t.mid
+			AND t.txtno = txtimg.txtno
+			AND t.txtno = #{txtno}
+			AND t.isshow='Y'
+			
+	</select>
+<!-- txt delete -->
+	<update id="tDelete">
+		UPDATE txt
+		SET isshow = 'N' 
+		WHERE txtno = #{txtno}
+			OR  upno = #{upno}
+	</update>
+<!-- txt edit -->
+	<update id="tEdit"  parameterType="tVO">
+		UPDATE txt
+		SET	title = #{title},
+			mtxt = #{mtxt},
+			catno = #{catno}
+		WHERE txtno = #{txtno}
+	</update>
+<!-- txt count -->
+	<update id="tCount" parameterType="int">
+		UPDATE txt
+		SET count = count+1
+		WHERE txtno = #{txtno}
+	</update>
+<!-- reply list -->
+	<select id="rList" resultType="tVO" >
+		SELECT
+			txtno, mtxt, upno, mid, 
+			TO_CHAR(cdate,'yyyy-MM-dd hh24:mi:ss') cdate
+		FROM
+			txt
+		WHERE
+			upno is not null
+            AND upno = #{txtno}
+            AND isshow = 'Y'
+        ORDER BY
+        	cdate desc
+	</select>
+<!-- reply write -->
+	<insert id="rWrite">
+		INSERT INTO txt(
+			txtno, mtxt, upno, mid
+		) VALUES (
+			getTxtno.nextval, #{mtxt}, #{upno}, #{mid}
+		)
+	</insert>
+<!-- reply delete -->
+	<update id="rDelete">
+		UPDATE
+			txt
+		SET
+			isshow = 'N'	
+		WHERE
+			txtno = #{txtno}
+			AND upno =#{upno}
+	</update>
+<!-- recommend -->
+	<select id="checkLike" resultType="int" parameterType="tVO">
+		SELECT
+			count(*)
+		FROM
+			recommend
+		WHERE
+			mid = #{mid}
+			AND txtno = #{txtno}
+	</select>
+	<update id="editLike" parameterType="tVO">
+		<selectKey keyProperty="isrec" resultType="String" order="BEFORE">
+			SELECT r.isrec FROM recommend r  WHERE txtno = #{txtno} AND mid = #{mid}
+		</selectKey>
+		UPDATE recommend
+		SET isrec = 
+			<choose>
+				<when test='isrec == "Y"'>
+					'N'	
+				</when>	
+				<otherwise>
+					'Y'
+				</otherwise>
+			</choose>	
+		WHERE txtno = #{txtno}
+			AND mid = #{mid}
+	</update>
+
+	<insert id="addLike" parameterType="tVO">
+		<selectKey keyProperty="recomno" resultType="int" order="BEFORE">
+			(SELECT NVL(MAX(recomno)+1, 0) FROM recommend)
+		</selectKey>
+		INSERT INTO recommend(
+			recomno, mid, txtno
+		)
+		VALUES(
+			getRecomno.nextval, #{mid}, #{txtno}
+		)
+	</insert>
+	<select id="likeCnt" resultType="int" parameterType="int">
+		SELECT
+			count(*)
+		FROM
+			recommend
+		WHERE
+			txtno=#{txtno}
+			AND isrec = 'Y'
+	
+	</select>
+<!-- 	<select id="txtlist">
+		SELECT
+		    txtno
+		FROM
+		    txt
+	</select> -->
+	<insert id="file" parameterType="tVO">
+		<selectKey keyProperty="txtno" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(txtno),10000) FROM txt
+		</selectKey>
+		INSERT INTO txtimg(
+			txtimgno, oriname, savename, txtno
+		) VALUES (
+			getTxtimgno.nextval, #{oriname}, #{savename}, #{txtno}
+		)
+	</insert>
+</mapper>

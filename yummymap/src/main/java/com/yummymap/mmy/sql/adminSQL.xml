@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+			PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+					"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+					
+<mapper namespace="adminSQL">
+
+	   <sql id="memberCnt">
+			SELECT 
+				count(*) cnt
+			FROM
+				member
+		</sql>
+		
+		<select id="loginck" resultType="int" parameterType="adminVo" >
+			<include refid="memberCnt" />
+			WHERE
+				mid = #{mid}
+				AND mpw = #{mpw} 
+		</select>
+		
+		<select id="membercnt" resultType="int" parameterType="adminVo">
+			<include refid="memberCnt" />
+			WHERE
+				isshow = 'Y'
+				AND GRADE = 'M'
+ 				<if test="mid != null and mid != ''"> AND mid = #{mid}</if>
+ 				<if test="mname != null and mname != ''">AND mname = #{mname}</if>
+		</select>
+		
+		<select id="memberList" resultType="adminVo" parameterType="hashmap" >
+			SELECT 
+			    rno ,mno , mid , mname , issue , joindate , joindate jointime 
+			FROM
+			(
+			    SELECT 
+			      ROWNUM rno , mno , mid , mname , issue , joindate 
+			    FROM
+			        (SELECT
+			          mno , mid , mname , issue , joindate
+			         FROM 
+			            member
+			         WHERE
+			         	isshow = 'Y'
+			         	AND GRADE = 'M'
+			         	<if test="avo.mid != null and avo.mid != ''">AND mid = #{avo.mid}</if>
+			         	<if test="avo.mname != null and avo.mname != ''">AND mname = #{avo.mname}</if>
+			         ORDER BY
+			            mno desc
+			         )
+			)
+			WHERE
+			    rno BETWEEN #{page.startCont} AND #{page.endCont}
+		</select>
+		
+		<select id="memberEdit" resultType="adminVo" parameterType="adminVo">
+			SELECT
+  			  mid , mname , mtel , substr(memail,1,instr(memail,'@')-1) email , substr(memail , instr(memail,'@')+1) domain
+  			  <if test="mno != null and mno != ''">,mno ,  issue, joindate , joindate jointime</if>
+			FROM
+			    member
+			WHERE
+			<if test="mno != null and mno != ''">
+			    grade = 'M'
+			    AND mno = #{mno}
+			</if>
+			<if test="mid != null and mid != ''">
+				grade ='A'
+				AND mid = #{mid}
+			</if>
+		</select>
+		
+		<update id="memberUpdate" parameterType="adminVo">
+			UPDATE 
+			    member
+			SET
+			    mname = #{mname} , mtel = #{mtel} , memail = #{memail}
+			    <if test="mno != null and mno != ''">,  issue = #{issue} </if>
+			    <if test="mpw != null and mpw != ''">, mpw= #{mpw}</if> 
+			WHERE
+			<if test="mno != null and mno != ''">
+			    grade = 'M'
+			    AND mno = #{mno}
+			</if>
+			<if test="mid != null and mid != ''">
+				grade ='A'
+				AND mid = #{mid}
+			</if>    
+		</update>
+		
+		<update id="memberDel" parameterType="adminVo">
+			UPDATE
+			    member
+			SET
+			    isshow = 'N'
+			WHERE
+			    mno = ${mno}
+		</update>
+
+	 <!-- 게시판 카운트  -->
+		<select id="boardCnt" resultType="int" parameterType="aBoardVo">
+			SELECT
+				count(*) cnt
+			FROM
+				txt
+			WHERE
+				isshow = 'Y'
+				<if test="mid != null and mid != ''">AND mid = #{mid}</if>
+				<if test="title != null and title != ''">AND title LIKE '%' || #{title} || '%'</if>
+				
+		</select>
+
+	 <!-- 게시판 관리 조회 페이지 sql  -->
+	 	<select id="boardList" resultType="aBoardVo" parameterType="hashmap">
+	 		   SELECT 
+			    rno ,txtno , title , mid ,  cdate cDate, cdate cTime
+			   FROM
+			    ( SELECT
+			        ROWNUM rno , txtno , title , mid ,  cdate
+			      FROM
+			    (
+				    SELECT 
+				        txtno , title , mid ,  cdate 
+				    FROM
+				        txt
+				    WHERE
+				        isshow = 'Y'
+				        <if test="abvo.mid != null and abvo.mid != ''">AND mid = #{abvo.mid}</if>
+				        <if test="abvo.title != nill and abvo.title != ''">AND title LIKE'%' || #{abvo.title} || '%'</if>
+				    ORDER BY
+				        txtno desc
+			    		) t )
+			    WHERE 
+			        rno BETWEEN #{page.startCont} and #{page.endCont}
+	 	</select>
+	 	<!-- 게시판 디테일 페이지  -->
+	 	<select id="boardDetail" resultType="aBoardVo" parameterType="aBoardVo">
+	 		    SELECT
+			        title , mtxt
+			    FROM
+			        txt
+			    WHERE
+			        txtno = ${txtno}
+	 	</select>
+	 	
+	 	<!-- 게시판 삭제 요청 -->
+	 	<update id="boardDel" parameterType="java.util.List">
+	 		UPDATE
+	 			txt
+	 		SET
+	 			isshow = 'N'
+	 		WHERE
+	 			txtno IN<foreach collection="list" item="item" open="(" close=")" separator=", ">#{item}</foreach>
+	 	</update>
+
+	
+	 	
+
+	 	
+</mapper>

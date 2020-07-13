@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+			PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+					"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+					
+<mapper namespace="mainSql">
+
+	<select id="weeklyUpso" resultType="UpsoVO">
+		SELECT
+		    upso_id id, place_name, save_name img_save_name
+		FROM
+		    (
+		        SELECT
+		            upso_id, place_name, count
+		        FROM
+		            (
+		                SELECT
+		                    count, resno
+		                FROM
+		                    (
+		                        SELECT
+		                            count(*) count, resno
+		                        FROM
+		                            my_upso
+		                        WHERE
+		                            is_pick = 'Y'
+		                            AND pick_date  > TRUNC(sysdate,'iw')
+		                        GROUP BY
+		                            resno
+		                        ORDER BY
+		                            count DESC
+		                    )    
+		                WHERE
+		                    rownum BETWEEN 1 AND 3
+		            ),
+		            upso
+		        WHERE
+		            upso_id = resno
+		    ) sub1,
+		        (
+		            SELECT
+		                save_name, res_no
+		            FROM
+		                review_img
+		            WHERE
+		                main_img = 'Y'
+		        ) sub2
+		WHERE
+		    sub1.upso_id = sub2.res_no(+)
+		ORDER BY 
+		    count DESC	
+	</select>
+
+	<select id="upSoDetailInfo" resultType="upsoVo" parameterType="Map">
+		SELECT
+		    upso_id id, place_name, category_name, phone, road_address_name, longitude x, latitude y, place_url,
+		    NVL(cont_sum, 0) cont_sum,  NVL(star_avg, 0) star_avg, is_pick
+		FROM
+		    upso,
+		    ( 
+		        SELECT  
+		            res_id, 
+		            COUNT(rev_no) AS cont_sum,
+		            TRUNC(AVG(rating_upso), 1) AS star_avg
+		        FROM 
+		            upso_review
+		        WHERE 
+		            isShow='Y' 
+		        GROUP BY  
+		            res_id 
+		    ),
+		    (
+		        SELECT
+		            count(*) is_pick
+		        FROM
+		            my_upso
+		        WHERE
+		            is_pick = 'Y'
+		            AND mid = #{user_id}
+		            AND resno = #{upso_id}
+		    )
+		WHERE
+		    upso_id =#{upso_id}
+		    AND upso_id = res_id(+)
+	</select>
+
+	<select id="getUpSoList_keyword" resultType="upsoVo" parameterType="Map">
+		SELECT
+		     rnum, id, place_name, category_name, phone, road_address_name,  x,  y, place_url, cont_sum,   star_avg, save_name AS img_save_name
+		FROM
+		    (
+		        SELECT
+		                rownum rnum,  id, place_name, category_name, phone, road_address_name,  x,  y, place_url, TRUNC(cont_sum, 1) cont_sum,  TRUNC(star_avg, 1) star_avg               
+		        FROM
+		            (
+		                SELECT
+		                            upso.upso_id id, place_name, category_name, phone, road_address_name, longitude x, latitude y, place_url,
+		                            NVL(cont_sum, 0) cont_sum,  NVL(star_avg, 0) star_avg
+		                FROM
+		                    upso, ( SELECT  
+		                                res_id, 
+		                                COUNT(rev_no) AS cont_sum,
+		                                AVG(rating_upso) AS star_avg
+		                            FROM 
+		                                upso_review
+		                            WHERE 
+		                                isShow='Y' 
+		                            GROUP BY  
+		                                res_id 
+		                            ),
+		                            ( SELECT
+		                                upso_id 
+		                              FROM
+		                                keyword
+		                              WHERE
+		                                keyword = #{searchInfoVo.keyword}
+		                            ) sub
+		                WHERE
+		                    upso.isShow = 'Y'
+		                    AND upso.upso_id = sub.upso_id
+		                    AND upso.upso_id = res_id(+)
+		                    <if test="searchInfoVo.category_name != null">
+							AND category_name LIKE '%${searchInfoVo.category_name}%'		                    	
+		                    </if>
+		                ORDER BY
+		                <if test='searchInfoVo.order_standard.equals("star_avg")'>
+		                    star_avg DESC
+		                </if>
+		                <if test='searchInfoVo.order_standard.equals("cont_sum")'>
+		                    cont_sum DESC
+		                </if>
+		                )
+		        ) sub1,
+		        (
+		            SELECT
+		                save_name, res_no
+		            FROM
+		                review_img
+		            WHERE
+		                main_img = 'Y'
+		        ) sub2
+		WHERE
+    		sub1.id = sub2.res_no(+)
+		    AND rnum BETWEEN #{pageUtil.startCont} AND #{pageUtil.endCont}
+	</select>
+	<select id="countUpso_category" resultType="int" parameterType="searchInfoVo">
+		SELECT
+		    count(*)
+		FROM
+		    upso,
+		                ( SELECT
+		                    upso_id 
+		                  FROM
+		                    keyword
+		                  WHERE
+		                    keyword = #{keyword}
+		                ) sub
+		WHERE
+		    upso.isShow = 'Y'
+		    AND upso.upso_id = sub.upso_id
+		    AND category_name LIKE '%${category_name}%'	
+	</select>
+	
+	<select id="showUpso" resultType="int" parameterType="int">
+		SELECT
+			count(upso_id)
+		FROM
+			upso
+		WHERE
+			upso_id = #{upso_id}
+	</select>
+	
+	<select id="showKeyword" resultType="searchInfoVo" parameterType="String">
+		SELECT
+			keyword_id, keyword, query_keyword, query_location, upsoCount
+		FROM
+			keyword,
+			 (SELECT count(*) upsoCount FROM keyword WHERE keyword = #{keyword} GROUP BY keyword)
+		WHERE
+			keyword = #{keyword}
+			AND rownum = 1
+	</select>
+	
+	<select id="reviewList" resultType="reviewVo" parameterType="int">
+		SELECT
+		    /*+ INDEX_DESC(upso_review UPSO_REVIEW_PK)*/ 	
+			rev_no, mid, res_id, rev_txt, rating_upso, TO_CHAR(cr_date, 'yyyy"년"mm"월"dd"일" hh24"시"mi"분"')  cr_date
+		FROM
+			upso_review
+		WHERE
+			res_id = #{upso_id}
+			AND isShow = 'Y'
+	</select>
+	
+	<select id="imgListForReview" resultType="imageFileVo" parameterType="int">
+		SELECT
+		    /*+ INDEX(review_img REVIEW_IMG_PK)*/ 
+		    rev_img_no, original_name,  save_name, rev_no, TO_CHAR(save_date, 'yyyy"년"mm"월"dd"일" hh24"시"mi"분"')  save_date
+		FROM
+		    review_img
+		WHERE
+		    rev_no = #{rev_no}
+	</select>
+	
+	<select id="getUpsoImg" resultType="String" parameterType="int">
+		SELECT
+		    /*+  INDEX_DESC(review_img REVIEW_IMG_PK) */
+		   save_name
+		FROM
+		    review_img
+		WHERE
+		    res_no = #{upso_id}
+		    AND rownum = 1		
+	</select>
+	
+	<select id="countImgGroupByUpso" parameterType="int" resultType="int">
+		SELECT
+			count(rev_img_no)
+		FROM
+			review_img
+		WHERE
+			res_no = #{upso_id}
+	</select>
+	
+	<select id="category_list_keyword" resultType="String" parameterType="String">
+		SELECT
+		  DISTINCT  REPLACE( SUBSTR( category, 1, DECODE( INSTR(category, '>', 1) -1, -1, LENGTH(category),  INSTR(category, '>', 1) -1) ), ' ', '') category
+		FROM
+		(
+		    SELECT
+		        category
+		    FROM
+		    (
+		        SELECT
+		                    DISTINCT SUBSTR(category_name, INSTR(category_name, '>',1)+1) category
+		        FROM
+		                upso,
+		                (
+		                    SELECT
+		                        upso_id 
+		                    FROM
+		                        keyword
+		                    WHERE
+		                        keyword = #{keyword}
+		                ) sub
+		        WHERE
+		            upso.isShow = 'Y'
+		            AND upso.upso_id = sub.upso_id
+		    )
+		)
+		ORDER BY
+		    LENGTH(category)	
+	</select>
+	
+	<select id="pickCount" parameterType="Map" resultType="int">
+		SELECT
+		    count(*) is_pick
+		FROM
+		    my_upso
+		WHERE
+		    is_pick = 'Y'
+		    AND mid = #{user_id}
+		    AND resno = #{upso_id}
+	</select>
+	
+	<select id="myPickUpsoList" parameterType="String" resultType="upsoVo">
+		SELECT
+		     upso_id id, place_name, road_address_name, phone,  avg star_avg,  count cont_sum, save_name img_save_name
+		FROM
+		(
+		    SELECT
+		         upso_id, place_name, road_address_name, phone, NVL( avg, 0) avg, NVL(count, 0) count
+		    FROM
+		    (
+		        SELECT
+		            AVG(rating_upso) avg, COUNT(rev_no) count , res_id
+		        FROM
+		            upso_review
+		        WHERE
+		            isshow = 'Y'
+		        GROUP BY
+		            res_id
+		    ) ,
+		    (
+		        SELECT
+		            upso_id, place_name, road_address_name, phone
+		        FROM
+		        upso,
+		        (
+		        SELECT
+		            resno
+		        FROM
+		            my_upso
+		        WHERE
+		            is_pick = 'Y'
+		            AND mid  = #{user_id}
+		        ) 
+		        WHERE
+		            upso_id = resno
+		    )
+		    WHERE
+		        upso_id = res_id(+)
+		),
+		(
+		        SELECT
+		            save_name, res_no
+		        FROM
+		            review_img
+		        WHERE
+		            main_img = 'Y'        
+		)
+		WHERE
+		    upso_id  = res_no(+)
+	</select>
+	
+	<select id="sub_myPickUpsoList" resultType="upsoVo" parameterType="searchInfoVo">
+		SELECT
+		    id, place_name, road_address_name, phone,cont_sum, TRUNC(star_avg, 1) star_avg, img_save_name
+		FROM
+		(
+		SELECT 
+		    upso_id id, place_name, category_name, phone, road_address_name, place_url,
+		    NVL(cont_sum, 0) cont_sum,  NVL(star_avg, 0) star_avg,
+		    SQRT( POWER(( 37.4917910 - LATITUDE) * 110979.309, 2)
+		          + POWER((127.4875970 - LONGITUDE) *  88907.949, 2)
+		          ) z
+		FROM upso
+	    	 , (SELECT     #{y} v_x    -- 기준좌표-위도(카카오기준 y)
+	             ,    #{x} v_y    -- 기준좌표-경도(카카오기준 x ) 
+	             , 110979.309     r_x    -- 위도-거리 환산계수
+	             ,  88907.949     r_y    -- 경도-거리 환산계수
+	             ,    1000.000     v_z    -- 검색반경
+		      FROM dual
+		    ),
+		     ( SELECT  res_id, 
+		               COUNT(rev_no) AS cont_sum,
+		               AVG(rating_upso) AS star_avg
+		       FROM upso_review
+		       WHERE isShow='Y' 
+		       GROUP BY  res_id ) sub
+		WHERE 
+		    SQRT( POWER((v_x - LATITUDE) * r_x, 2)
+		           + POWER((v_y - LONGITUDE) * r_y, 2)
+		           ) &lt;= v_z
+		    AND LATITUDE BETWEEN v_x - v_z / r_x AND v_x + v_z / r_x
+		    AND LONGITUDE BETWEEN v_y - v_z / r_y AND v_y + v_z / r_y
+		    AND  isShow = 'Y'
+		    AND upso_id = res_id(+)
+		ORDER BY 
+		    star_avg DESC
+		),
+		(
+		    SELECT
+		        save_name img_save_name, res_no
+		    FROM
+		        review_img
+		    WHERE
+		        main_img = 'Y' 
+		)
+		WHERE
+		    id = res_no(+)
+		    AND rownum BETWEEN 1 AND 3	
+	</select>
+	
+	<select id="checkReviewWriter" parameterType="int" resultType="String">
+		SELECT
+			mid
+		FROM
+			upso_review
+		WHERE
+			rev_no = #{rev_no}
+	</select>
+	
+	
+	
+	
+	<insert id="insertUpSo" parameterType="upsoVo">
+		INSERT INTO
+			upso
+		VALUES (
+			#{id},#{place_name},#{category_name},#{phone},
+			<if test="road_address_name != null and road_address_name !=''">
+			#{road_address_name},			
+			</if>
+			<if test="road_address_name == null or road_address_name == ''">
+			#{address_name},
+			</if>
+			#{x},#{y},#{place_url}, 'Y'		
+		)
+	</insert>
+	
+	<insert id="insertKeyword" parameterType="searchInfoVo">
+	<selectKey keyProperty="keyword_id" resultType="int" order="BEFORE">
+		SELECT NVL(MAX(keyword_id)+1 , 1) FROM keyword
+	</selectKey>
+		INSERT INTO
+			keyword
+		VALUES (
+			#{keyword_id}, #{keyword}, #{query_keyword}, #{query_location}, #{upso_id}
+		)
+	</insert>
+
+	<insert id="insertReview" parameterType="reviewVo">
+	<selectKey keyProperty="rev_no" resultType="int" order="BEFORE">
+		SELECT NVL(MAX(rev_no)+1 , 1) FROM upso_review
+	</selectKey>
+		INSERT INTO
+			upso_review (rev_no, mid, res_id, rev_txt, rating_upso)
+		VALUES (
+			#{rev_no}, #{mid}, #{res_id}, #{rev_txt}, #{rating_upso}		
+		)
+	</insert>
+	<insert id="insertReviewImg" parameterType="imageFileVo">
+	<selectKey keyProperty="rev_img_no" resultType="int" order="BEFORE">
+		SELECT NVL(MAX(rev_img_no)+1 , 1) FROM review_img
+	</selectKey>
+		INSERT INTO
+			review_img (rev_img_no, original_name, save_name, rev_no, res_no, main_img)
+		VALUES (
+			#{rev_img_no}, #{original_name}, #{save_name}, #{rev_no}, #{res_no}, #{is_main}
+		)
+	</insert>
+	
+	<insert id="isertPick" parameterType="Map">
+		INSERT INTO
+			my_upso (my_upso_id, mid, resno)		
+		VALUES (
+			(SELECT NVL(MAX(my_upso_id)+1, 1) FROM my_upso), #{user_id}, #{upso_id}
+		)
+	</insert>
+	
+	<update id="removePick" parameterType="Map">
+		UPDATE
+			my_upso
+		SET
+			is_pick = 'N'
+		WHERE
+			resno = #{upso_id}
+			AND mid = #{user_id}
+	</update>
+	<update id="deleteReview" parameterType="Map">
+		UPDATE
+			upso_review
+		SET
+			isshow = 'N'
+		WHERE
+			rev_no = #{rev_no}
+			AND mid = #{user_id}
+	</update>
+	<update id="deleteReviewImage" parameterType="int">
+		UPDATE
+			review_img
+		SET
+			is_show = 'N'
+		WHERE
+			rev_no = #{rev_no}
+	</update>
+
+
+</mapper>

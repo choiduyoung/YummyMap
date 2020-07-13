@@ -1,0 +1,131 @@
+  .por{position: relative;}
+  .h90{height:150px;}
+  .bor-bottom{border-bottom :1px solid grey;}
+  .bor-right{border-right : 2px solid rgb(255, 128, 89);}
+  .bor-bottom-or{border-bottom :2px solid rgb(255, 128, 89);}
+  .bor-bottom-top{border-top :2px solid rgb(255, 128, 89);}
+  .mar-top{margin-top: 350px;}
+  .padd-right{padding-right: 0px;}
+  .padd-text{padding-right: 15px;}
+  .por-button{position: relative; left: 145px; top: 50px;}
+  .pd-left-500{padding-left: 500px;}
+  .a-font{ color: black; font-weight :bold;}
+  .por-nav{     position: relative; left: 149px;}
+  .bg-or{background-color: rgb(255, 128, 89);}
+  .nav-text{
+    width: 420px;
+  }
+  .pbtn {
+	cursor: pointer;
+}
+
+.next{
+	cursor: pointer;
+}
+.pre {
+	cursor: pointer;
+	
+}
+.pbtnck{
+	z-index: 2;
+    color: #0056b3;
+    text-decoration: none;
+    background-color: #e9ecef;
+    border-color: #dee2e6
+
+}
+
+.por{
+	
+	margin-top: 29px;
+}
+/**
+@author ������
+@since 2020.05.23
+ 	�� CSS�� ������ �Խñ� ���� �������� ����� CSS �Դϴ�
+*/
+
+.bar{
+	border-bottom: 3px solid rgb(255, 165, 69);
+}
+
+.bar-ri{
+	border-right: 3px solid rgb(255, 165, 69);
+}
+
+.bar-lf{
+	border-left: 3px solid rgb(255, 165, 69);
+}
+
+.bar-top{
+	border-top: 3px solid rgb(255, 165, 69);
+}
+.sub{
+	margin: 0px !important; height: 600px !important;
+} 
+
+ .sub-box{
+	height: 540px;
+}
+.title-box{
+	font-size: 15px;
+}
+
+.tcolor{color: rgb(255, 128, 89) !important;}
+.nav-body{width: 100%; height: 130px;}
+.nav-item{background-color: rgb(255, 128, 89); color: white;}
+.logo{ font-size: 25pt; font-weight: bold; margin-top: 20px;}
+.nav-item-1{margin-left: 820px;}
+.nav-item-size{font-size: 30pt;}
+.main-body{position: absolute; top: 240px;}
+.mt100{
+	margin-top: 100px;
+}
+
+.mt30{
+	margin-top: 30px;
+}
+
+.mt20{
+	margin-top: 20px;
+}
+
+.sub{
+	margin: 0px !important; height: 550px;
+}
+
+.hi40 {
+	height: 40px;
+}
+
+a {
+	color: black;
+}
+
+a:hover {
+	border-bottom: none;
+	text-decoration: none;
+}
+
+.title:hover{
+	cursor: pointer;
+}
+
+.pbtn {
+	cursor: pointer;
+}
+.next{
+	cursor: pointer;
+}
+.pre {
+	cursor: pointer;
+	
+}
+.pbtnck{
+	z-index: 2;
+    color: #0056b3;
+    text-decoration: none;
+    background-color: #e9ecef;
+    border-color: #dee2e6
+
+}

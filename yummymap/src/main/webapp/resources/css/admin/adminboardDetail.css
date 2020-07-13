@@ -1,0 +1,186 @@
+/**
+@author 유태희
+@since 2020.05.24
+ 	이 CSS는 관리자 게시글 상세보기 페이지에 사용할 CSS 입니다
+*/
+body {
+	border-color: #c8c8c8;
+}
+
+.img {
+	width: 100%;
+}
+
+input, select {
+	border: none !important;
+	border-radius: 0px !important;
+}
+
+.border-b {
+	border-bottom: 1px solid gray !important;
+}
+
+.bar {
+	border-bottom: 3px solid #ff9061;
+}
+
+.mt100 {
+	margin-top: 100px;
+}
+
+.mt30 {
+	margin-top: 30px;
+}
+
+.mt80 {
+	margin-top: 80px;
+}
+
+.mt20 {
+	margin-top: 20px;
+}
+
+.btn-bg {
+	background-color: #ff9061;
+}
+
+.bar-ri {
+	border-right: 3px solid rgb(255, 165, 69);
+}
+
+.in-bl {
+	display: inline-block;
+}
+
+.tcolor {
+	color: rgb(255, 128, 89) !important;
+}
+
+.nav-body {
+	width: 100%;
+	height: 130px;
+}
+
+.nav-item {
+	background-color: rgb(255, 128, 89);
+	color: white;
+}
+
+.logo {
+	font-size: 25pt;
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+.nav-item-1 {
+	margin-left: 820px;
+}
+
+.nav-item-size {
+	font-size: 30pt;
+}
+
+.main-body {
+	position: absolute;
+	top: 240px;
+}
+
+.id-span {
+	max-width: 265.5px;
+}
+
+.margin-name {
+	margin-left: 37px;
+}
+
+.margin-pw {
+	margin-left: 45px;
+}
+
+.margin-tel {
+	margin-left: 35px;
+}
+
+.margin-mail {
+	margin-left: 35px;
+}
+
+.margin-domain {
+	margin-left: 323px;
+}
+
+a {
+	color: black;
+}
+
+a:hover {
+	border-bottom: none;
+	text-decoration: none;
+}
+
+/* .txt-line{width: 850px; min-height: 480px; max-height: 2000px; margin-top: 25px;} */
+.txt-body {
+	width: 850px;
+	height: 100px;
+}
+
+.b-w {
+	width: 710px;
+}
+
+.txt-title {
+	width: 660px;
+	padding-left: 95px;
+	font-size: 20pt;
+}
+
+.like-size {
+	font-size: 20pt;
+	color: rgb(255, 128, 89);
+}
+
+.txt-body {
+	padding-left: 100px;
+	padding-right: 100px;
+	min-width: 700px;
+}
+
+.reply-line {
+	width: 850px;
+}
+
+.reply-info {
+	width: 710px;
+}
+
+.re-input {
+	background-color: rgba(0, 0, 0, 0.08);
+}
+
+.reply-txt-1 {
+	padding-left: 90px;
+	color: rgba(0, 0, 0, 0.4);
+}
+
+.reply-txt-2 {
+	padding-left: 90px;
+}
+
+.re-text-area {
+	width: 710px;
+}
+
+.reply-btn {
+	height: 30px;
+	padding-left: 10px;
+}
+
+.myd-none {
+	display: none;
+}
+
+.mtxt-box {
+	overflow-y: auto;
+	width: 800px;
+	height: 350px;
+}

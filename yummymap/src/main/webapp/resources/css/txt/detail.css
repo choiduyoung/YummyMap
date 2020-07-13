@@ -1,0 +1,20 @@
+
+.txt-line{width: 850px; min-height: 480px;  margin-top: 25px;}
+.txt-body{width: 850px; min-height: 480px; }
+.b-w{width: 710px;}
+
+.txt-title{width: 660px; padding-left: 110px; font-size: 20pt;}
+.like-size{font-size: 20pt; color: rgb(255, 128, 89);}
+.like-rnum{font-size: 15pt; color: rgba(0, 0, 0, 0.4);}
+.txt-body{padding-left: 100px; padding-right: 100px; min-width: 700px;}
+.reply-line{width: 850px;}
+.reply-info{width: 710px;}
+.re-input{background-color: rgba(0, 0, 0, 0.08);}
+.reply-txt-1{ padding-left: 90px; color: rgba(0, 0, 0, 0.4);}
+.reply-txt-2{ padding-left: 90px; }
+.reply-txt-3{ padding-left: 100px; padding-bottom: 20px; color: rgba(0, 0, 0, 0.4); font-size: 15px;}
+.re-text-area{width: 710px; resize: none; font-size: 14.5px}
+.reply-btn{height: 30px; padding-left: 10px;}
+.myd-none{display: none;}
+.likebtn, .dislikebtn, .nolikebtn {height: 30px; width: 30px;}
+.txtimg {padding-left: 100px;  padding-top: 50px; padding-bottom: 20px; height: 350px;}

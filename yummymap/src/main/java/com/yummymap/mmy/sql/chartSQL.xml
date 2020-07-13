@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+			PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+					"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+					
+<mapper namespace="chartSQL">
+
+		 <!-- 음식점 카테고리 차트 쿼리 -->
+	 	<select id="category" resultType="resCntVo">
+			SELECT
+			    count(*) cnt , category
+			FROM
+			(
+			    SELECT
+			         SUBSTR(cate, INSTR(cate, '>')+1)category
+			    FROM
+			        (
+			            SELECT
+			                REPLACE(NVL(substr(category_name,0,instr(category_name,'>',1 ,2)-1),category_name),' ' , '') cate
+			            FROM
+			                upso
+			            ORDER BY LENGTH(cate) DESC
+			        ) caregory
+			)
+			GROUP BY
+			    category
+			ORDER BY
+			    cnt desc
+	 	</select>
+	 	
+	 	<!-- 관리자 메인페이지 차트 쿼리 -->
+	 	<select id="mainCnt" resultType="chartCntVo" parameterType="chartCntVo">
+		 	SELECT
+			    txtcnt , memcnt, isuemem
+			FROM
+			    (SELECT count(*) txtcnt FROM txt WHERE isshow = 'Y'),
+			    (SELECT count(*) memcnt FROM member WHERE isshow ='Y' and grade = 'M'), 
+			    (SELECT count(*) isuemem FROM member WHERE issue ='X' and grade = 'M') 
+	 	</select> 
+		
+		<!-- 업소별 rating 조회 쿼리 -->
+		<select id="upso_rating_total" parameterType="int" resultType="ratingUpsoVo">
+		SELECT
+		     count(rev_no) rating_value_count, rating_upso rating_value
+		FROM
+		    upso_review
+		WHERE
+		    res_id = #{upso_id}
+		    AND isshow = 'Y'
+		GROUP BY
+		    rating_upso		
+		</select>
+		
+	<!-- 활동 차트 SQL -->
+	<select id="ActivityCnt" resultType="chartCntVo" parameterType="chartCntVo">
+		SELECT
+		    txtcnt, recnt
+		FROM
+		   (SELECT count(*) txtcnt FROM txt WHERE mid = #{mid} AND isShow = 'Y'),
+		   (SELECT count(*) recnt FROM upso_review WHERE mid = #{mid} AND isShow = 'Y')
+	</select>
+	
+	<!-- 카테고리별 쓴글 카운트 SQL -->
+	<select id="cateActivityCnt" resultType="TextVO" parameterType="TextVO">
+		SELECT 
+			*
+		FROM
+			(SELECT 
+				count(*) cnt , category 
+			FROM 
+				txt , category 
+		WHERE 
+			txt.catno = category.catno
+            AND MID = #{mid} AND isShow = 'Y'  GROUP BY category.category)
+	</select>
+	
+	<select id="getClientCnt" resultType="chartCntVo">
+		SELECT
+		    to_char(cdate , 'MM/dd') days , cnt
+		FROM
+		    clientcnt
+		WHERE
+		    cdate BETWEEN sysdate-7 and sysdate
+		ORDER BY
+		    cdate asc
+	</select>
+</mapper>

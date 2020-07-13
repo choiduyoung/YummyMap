@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						https://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						https://www.springframework.org/schema/context/spring-context.xsd">
+	
+	
+	<!-- 회원관련 데이터베이스 처리 dao 빈처리 -->
+	
+	<bean id="mDao" class="com.yummymap.mmy.dao.MemberDAO" />
+	<!-- 게시판 관련 데이베이스 작업 dao 빈처리 -->
+	<bean id="tDAO" class="com.yummymap.mmy.dao.TxtDAO" /> 
+	<!-- 어드민 관련 데이터 베이스 -->
+	<bean id="aDAO" class="com.yummymap.mmy.dao.AdminDAO" />
+	<!-- 차트 관련 데이터 베이스 -->
+	<bean id="chartDAO" class="com.yummymap.mmy.dao.ChartDAO" />
+	<!-- 내가쓴글 관련 데이터 베이스 -->
+	<bean id="tDao" class="com.yummymap.mmy.dao.TextDAO" /> 
+	<!-- 메일인증 관련 데이터 베이스 -->
+	<bean id="jDao" class="com.yummymap.mmy.dao.JoinMailDAO" /> 
+</beans>

@@ -1,0 +1,69 @@
+  .por{position: relative;}
+  .h90{height:90px;}
+  .bor-bottom{border-bottom :1px solid grey;}
+  .bor-right{border-right : 2px solid rgb(255, 128, 89);}
+  .bor-bottom-or{border-bottom :2px solid rgb(255, 128, 89);}
+  .bor-bottom-top{border-top :2px solid rgb(255, 128, 89);}
+  .mar-top{margin-top: 350px;}
+  .padd-right{padding-right: 0px;}
+  .padd-text{padding-right: 15px;}
+  .por-button{position: relative; left: 145px; top: 50px;}
+  .por-button2{position: relative; left: 145px; top:3px; }
+  .pd-left-500{padding-left: 500px;}
+  .a-font{ color: black; font-weight :bold;}
+  .por-nav{position: relative; left: 149px;}
+  .bg-or{background-color: rgb(255, 128, 89);}
+  .mxw{white: 700px}
+  .margin-lift{margin-left: 80px;
+  }
+  .ctQZg{
+  	    position: relative;
+    	left: 140px;
+  }
+    .nav-text{
+    width: 400px;
+  }
+  .pbtn {
+	cursor: pointer;
+}
+.next{
+	cursor: pointer;
+}
+.pre {
+	cursor: pointer;
+}
+.pbtnck{
+	z-index: 2;
+    color: #0056b3;
+    text-decoration: none;
+    background-color: #e9ecef;
+    border-color: #dee2e6
+
+}
+.wid{width: 176px}
+.wna{width: 127px}
+.por{
+	
+	margin-top: 29px;
+}
+
+.pa{padding: 29px;}
+.pa1{padding: 22px;}
+.po{position: relative;
+    right: 59px;}
+.po1{position: relative;
+    right: 21px; top: 17px;}
+.po2{position: relative;
+    	right: 10px;
+    	top: 11px;}
+.po3{position: relative;
+    right: 138px;
+    top: 14px;}
+.po4{position: relative;
+    right: 10px;}
+.pot{sition: relative;
+    top: 17px;}
+.pol{position: relative;
+    right: 77px;
+
+  
